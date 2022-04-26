@@ -130,37 +130,21 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 		}
 		return false;
 	}
-	
-	@Override
+
 	public Double calcularINSS() {
-        if (salarioBruto > 7087.22) {
-            return 7087.22 * 0.14 - 163.82;
-        } else if (salarioBruto >= 3641.03) {
-            return salarioBruto * 0.14 - 163.82;
-        } else if (salarioBruto >= 2427.36) {
-            return salarioBruto * 0.12 - 91.0;
-        } else if (salarioBruto >= 1212.01) {
-            return salarioBruto * 0.09 - 18.18;
-        } else {
-            return salarioBruto * 0.075;
-        }
-    }
-	/*
-	  
-	  (public Double calcularINSS() {
 		if (salarioBruto > aliquotaINSS4) {
 			return aliquotaINSS4 * percentualAliquotaINSS4 - deducaoINSS4;
 		} else if (salarioBruto >= aliquotaINSS3) {
-			return salarioBruto * percentualAliquotaINSS4 - deducaoINSS3;
+			return salarioBruto * percentualAliquotaINSS4 - deducaoINSS4;
 		} else if (salarioBruto >= aliquotaINSS2) {
-			return salarioBruto * percentualAliquotaINSS3 - deducaoINSS2;
+			return salarioBruto * percentualAliquotaINSS3 - deducaoINSS3; // aqui
 		} else if (salarioBruto >= aliquotaINSS1) {
-			return salarioBruto * percentualAliquotaINSS2 - deducaoINSS1;
+			return salarioBruto * percentualAliquotaINSS2 - deducaoINSS2;
 		} else {
 			return salarioBruto * percentualAliquotaINSS1;
 		}
 
-	}*/
+	}
 
 	@Override
 	public Double calcularIR() {
