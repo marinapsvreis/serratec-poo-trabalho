@@ -1,16 +1,17 @@
 package model.entities;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 public abstract class Pessoa {
-	String nome;
-	String cpf;
-	LocalDate dataNascimento;
+	protected String nome;
+	protected String cpf;
+	protected LocalDate dataNascimento;
 
 	public Pessoa(String nome, String cpf, LocalDate dataNascimento) {
 		this.nome = nome;
 		this.cpf = cpf;
-		this.dataNascimento = dataNascimento; 
+		this.dataNascimento = dataNascimento;
 	}
 
 	public String getNome() {
@@ -27,7 +28,8 @@ public abstract class Pessoa {
 
 	@Override
 	public String toString() {
-		return nome + " - " + cpf + " - " + dataNascimento ;
+		return nome + " - " + cpf + " - " + dataNascimento;
 	}
 
+	
 }

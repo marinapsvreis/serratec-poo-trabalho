@@ -15,9 +15,6 @@ public class Dependente extends Pessoa {
 	public Dependente(String nome, String cpf, LocalDate dataNascimento, ParentescoEnum parentesco) {
 		super(nome, cpf, dataNascimento);
 		this.parentesco = parentesco;
-		if (eMaiorDeIdade()) {
-			throw new DependenteException("Dependente é maior de idade");
-		}
 
 	}
 
@@ -32,18 +29,6 @@ public class Dependente extends Pessoa {
 
 	public ParentescoEnum getParentesco() {
 		return parentesco;
-	}
-
-	public boolean eMaiorDeIdade() {
-		LocalDate dataHoje = LocalDate.now();
-		Period periodo = Period.between(dataNascimento, dataHoje);
-		Integer idade = periodo.getYears();
-		if (idade >= 18) {
-			return true;
-		} else {
-			return false;
-		}
-
 	}
 
 }
