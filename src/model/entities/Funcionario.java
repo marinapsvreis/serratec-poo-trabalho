@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import model.entities.enums.ParentescoEnum;
 import model.entities.interfaces.FuncionarioInterface;
 
 public class Funcionario extends Pessoa implements FuncionarioInterface {
 
 	Double salarioBruto;
-	Set<Dependente> listaDependente = new HashSet<>();
+	Set<Dependente> listaDependentes = new HashSet<>();
 
 	public Funcionario(String nome, String cpf, LocalDate dataNascimento, Double salarioBruto) {
 		super(nome, cpf, dataNascimento);
@@ -21,29 +22,34 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 		return salarioBruto;
 	}
 
-	public Set<Dependente> getListaDependente() {
-		return listaDependente;
+	public Set<Dependente> getListaDependentes() {
+		return listaDependentes;
 	}
 
-	public void addDependente(Dependente dependente) {
-		this.listaDependente = listaDependente;
+	public void addDependente(String nome, String cpf, LocalDate dataNascimento, ParentescoEnum parentesco) {
+		Dependente d = new Dependente(nome, cpf, dataNascimento, parentesco);
+		try {
+			if (Dependente.getListaAllDependentes().size() == 0) {
+				listaDependentes.add(d);
+				Dependente.getListaAllDependentes().add(d);
+			}
+		} catch (Exception e) {
+
+		}
 	}
 
 	@Override
 	public Double calcularINSS() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Double calcularIR() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Double calcularSalarioLiquido() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
