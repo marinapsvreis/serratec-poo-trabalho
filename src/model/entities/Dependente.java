@@ -18,6 +18,17 @@ public class Dependente extends Pessoa {
 
 	}
 
+	public static void mostrarListaAllDependentes() {
+		if (listaAllDependentes.size() == 0) {
+			System.out.println();
+			System.out.println("O sistema não tem dependentes cadastrados!");
+		} else {
+			for (Dependente dependente : listaAllDependentes) {
+				System.out.println(dependente);
+			}
+		}
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() + " - " + parentesco;

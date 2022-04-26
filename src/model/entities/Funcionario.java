@@ -19,11 +19,16 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 	public Funcionario(String nome, String cpf, LocalDate dataNascimento, Double salarioBruto) {
 		super(nome, cpf, dataNascimento);
 		this.salarioBruto = salarioBruto;
-		if (cpfJaCadastradoFuncionarios(cpf)) {
-			throw new FuncionarioException(
-					"O CPF informado já foi utilizado para outro funcionario. Portanto, não foi cadastrado!");
-		} else {
-			listaAllFuncionarios.add(this);
+
+		try {
+			if (cpfJaCadastradoFuncionarios(cpf)) {
+				throw new FuncionarioException("O CPF informado por " + getNome()
+						+ " já foi utilizado para outro funcionario. Portanto, não foi cadastrado!");
+			} else {
+				listaAllFuncionarios.add(this);
+			}
+		} catch (FuncionarioException e) {
+			System.out.println("Erro: " + e.getMessage());
 		}
 
 	}
@@ -68,6 +73,34 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 
 	}
 
+	public void removerDependente(Dependente dependente) {
+		listaDependentes.remove(dependente);
+	}
+
+	public static void mostrarListaAllFuncionarios() {
+		if (listaAllFuncionarios.size() == 0) {
+			System.out.println();
+			System.out.println("O sistema não tem funcionarios cadastrados!");
+		} else {
+			for (Funcionario funcionario : listaAllFuncionarios) {
+				System.out.println(funcionario);
+			}
+		}
+	}
+
+	public void mostrarListaDependentes() {
+		if (listaDependentes.size() == 0) {
+			System.out.println();
+			System.out.println("O funcionario " + getNome() + " não tem dependentes!");
+		} else {
+			System.out.println();
+			System.out.println("A lista de dependentes do funcionário " + getNome() + " é: ");
+			for (Dependente dependete : listaDependentes) {
+				System.out.println(dependete);
+			}
+		}
+	}
+
 	public boolean eMaiorDeIdade(LocalDate dataNascimento) {
 		LocalDate dataHoje = LocalDate.now();
 		Period periodo = Period.between(dataNascimento, dataHoje);
@@ -97,20 +130,57 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public Double calcularINSS() {
-		return null;
-	}
+        if (salarioBruto > 7087.22) {
+            return 7087.22 * 0.14 - 163.82;
+        } else if (salarioBruto >= 3641.03) {
+            return salarioBruto * 0.14 - 163.82;
+        } else if (salarioBruto >= 2427.36) {
+            return salarioBruto * 0.12 - 91.0;
+        } else if (salarioBruto >= 1212.01) {
+            return salarioBruto * 0.09 - 18.18;
+        } else {
+            return salarioBruto * 0.075;
+        }
+    }
+	/*
+	  
+	  (public Double calcularINSS() {
+		if (salarioBruto > aliquotaINSS4) {
+			return aliquotaINSS4 * percentualAliquotaINSS4 - deducaoINSS4;
+		} else if (salarioBruto >= aliquotaINSS3) {
+			return salarioBruto * percentualAliquotaINSS4 - deducaoINSS3;
+		} else if (salarioBruto >= aliquotaINSS2) {
+			return salarioBruto * percentualAliquotaINSS3 - deducaoINSS2;
+		} else if (salarioBruto >= aliquotaINSS1) {
+			return salarioBruto * percentualAliquotaINSS2 - deducaoINSS1;
+		} else {
+			return salarioBruto * percentualAliquotaINSS1;
+		}
+
+	}*/
 
 	@Override
 	public Double calcularIR() {
-		return null;
+		Double aliquota = (salarioBruto - (listaDependentes.size() * valorPorDependente) - calcularINSS());
+		if (aliquota > aliquotaIR4) {
+			return aliquota * percentualAliquotaIR4 - deducaoIR4;
+		} else if (aliquota >= aliquotaIR3) {
+			return aliquota * percentualAliquotaIR3 - deducaoIR3;
+		} else if (aliquota >= aliquotaIR2) {
+			return aliquota * percentualAliquotaIR2 - deducaoIR2;
+		} else if (aliquota >= aliquotaIR1) {
+			return aliquota * percentualAliquotaIR1 - deducaoIR1;
+		} else {
+			return 0.0;
+		}
 	}
 
 	@Override
 	public Double calcularSalarioLiquido() {
-		return null;
+		return salarioBruto - calcularINSS() - calcularIR();
 	}
 
 }
