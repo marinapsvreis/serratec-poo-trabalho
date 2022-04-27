@@ -21,11 +21,12 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 		this.salarioBruto = salarioBruto;
 
 		try {
-			if (cpfJaCadastradoFuncionarios(cpf)) {
+			if (cpfJaCadastrado(cpf)) {
 				throw new FuncionarioException("O CPF informado por " + getNome()
-						+ " já foi utilizado para outro funcionario. Portanto, não foi cadastrado!");
+						+ " já foi utilizado para outra pessoa. Portanto, não foi cadastrado!");
 			} else {
 				listaAllFuncionarios.add(this);
+				Pessoa.getListaAllPessoas().add(this);
 			}
 		} catch (FuncionarioException e) {
 			System.out.println("Erro: " + e.getMessage());
@@ -50,6 +51,7 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 		try {
 			if (Dependente.getListaAllDependentes().size() == 0) {
 				Dependente.getListaAllDependentes().add(d);
+				Pessoa.getListaAllPessoas().add(d);
 				listaDependentes.add(d);
 			} else {
 				if (eMaiorDeIdade(dataNascimento)) {
@@ -57,7 +59,7 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 					throw new DependenteException("Dependente " + d.getNome() + " referente ao funcionario(a) "
 							+ getNome() + " já é maior de idade! Portanto, não foi cadastrado(a)!");
 				}
-				if (cpfJaCadastradoDependentes(cpf)) {
+				if (cpfJaCadastrado(cpf)) {
 
 					throw new DependenteException("Dependente " + d.getNome() + " referente ao funcionario(a) "
 							+ getNome()
@@ -65,6 +67,7 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 				}
 
 				Dependente.getListaAllDependentes().add(d);
+				Pessoa.getListaAllPessoas().add(d);
 				listaDependentes.add(d);
 			}
 		} catch (DependenteException e) {
@@ -113,18 +116,9 @@ public class Funcionario extends Pessoa implements FuncionarioInterface {
 
 	}
 
-	public boolean cpfJaCadastradoDependentes(String cpf) {
-		for (Dependente d : Dependente.getListaAllDependentes()) {
-			if (cpf.equals(d.getCpf())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean cpfJaCadastradoFuncionarios(String cpf) {
-		for (Funcionario f : Funcionario.getListaAllFuncionarios()) {
-			if (cpf.equals(f.getCpf())) {
+	public boolean cpfJaCadastrado(String cpf) {
+		for (Pessoa p : Pessoa.getListaAllPessoas()) {
+			if (cpf.equals(p.getCpf())) {
 				return true;
 			}
 		}
