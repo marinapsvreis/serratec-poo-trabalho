@@ -15,14 +15,17 @@ public class Program2 {
 		String readPath = sc1.nextLine();
 		System.out.println("Digite o caminho do arquivo a ser preenchido:");
 		String writePath = sc1.nextLine();
+		
+		sc1.close();
 
 		InputStream ins = new FileInputStream(readPath);
 		Scanner sc2 = new Scanner(ins);
 
 		List<Funcionario> funcionarios = new ArrayList();
 
-		String line = sc2.nextLine();
+		String line;
 		while (sc2.hasNextLine()) {
+			line = sc2.nextLine();
 			if (line.isEmpty()) {
 				line = sc2.nextLine();
 			}
@@ -39,16 +42,16 @@ public class Program2 {
 														LocalDate.of(Integer.parseInt(fieldsData[0]), Integer.parseInt(fieldsData[1]), Integer.parseInt(fieldsData[2])), 
 														Double.parseDouble(fields[3]));
 				funcionarios.add(funcionario);
-				line = sc2.nextLine();
 			} else {
 				Funcionario fUltimo = funcionarios.get(funcionarios.size()-1);
 				fUltimo.addDependente(fields[0], 
 									fields[1], 
 									LocalDate.of(Integer.parseInt(fieldsData[0]), Integer.parseInt(fieldsData[1]), Integer.parseInt(fieldsData[2])), 
-									ParentescoEnum.valueOf(fields[3]));
-				line = sc2.nextLine();			
+									ParentescoEnum.valueOf(fields[3]));		
 			}
 		}
+		
+		sc2.close();
 		
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(writePath))){
 			for (Funcionario resultado : funcionarios){
