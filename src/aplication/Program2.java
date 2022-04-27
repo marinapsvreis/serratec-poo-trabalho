@@ -56,8 +56,9 @@ public class Program2 {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(writePath))){
 			for (Funcionario resultado : funcionarios){
 				bw.write(resultado.getNome() + ";" 
-						+ resultado.getListaDependentes().size() + ";" 
-						+ String.format("%.2f", resultado.getListaDependentes().size() * Funcionario.valorPorDependente) + ";" 
+						+ resultado.getCpf() + ";"
+						//+ resultado.getListaDependentes().size() + ";" 
+						//+ String.format("%.2f", resultado.getListaDependentes().size() * Funcionario.valorPorDependente) + ";" 
 						+ String.format("%.2f", resultado.calcularINSS()) + ";" 
 						+ String.format("%.2f", resultado.calcularIR()) + ";" 
 						+ String.format("%.2f", resultado.calcularSalarioLiquido()));
